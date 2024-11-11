@@ -104,16 +104,17 @@ public class ProductDetail {
         int nonPromotionBuyCount = neededQuantity - (promotionSet * getBundleCount());
 
         if (agreePayingForRegularPrice(productName, nonPromotionBuyCount)) {
-            return takeAllPromotionStockAndPartOfRegularStock(neededQuantity, promotionBuyCount + nonPromotionBuyCount);
+            return takeAllPromotionStockAndPartOfRegularStock(neededQuantity, promotionBuyCount, nonPromotionBuyCount);
         }
 
         return takePromotionSetsCount(promotionBuyCount);
     }
 
-    private List<Integer> takeAllPromotionStockAndPartOfRegularStock(int neededQuantity, int totalBuyCount) {
+    private List<Integer> takeAllPromotionStockAndPartOfRegularStock(int neededQuantity, int promotionBuyCount, int nonPromotionBuyCount) {
+        int totalBuyCount = promotionBuyCount + nonPromotionBuyCount;
         regularQuantity -= (neededQuantity - promotionalQuantity);
         promotionalQuantity = 0;
-        return List.of(totalBuyCount, promotion.freeOffer(promotionalQuantity));
+        return List.of(totalBuyCount, promotion.freeOffer(promotionBuyCount));
     }
 
     private List<Integer> takePromotionSetsCount(int promotionBuyCount) {
