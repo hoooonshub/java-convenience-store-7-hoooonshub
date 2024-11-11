@@ -36,4 +36,29 @@ public class Promotion {
     public boolean none() {
         return "null".equals(this.name);
     }
+
+    public boolean isActive(LocalDateTime now) {
+        return ((now.isEqual(startDate)) || now.isAfter(startDate)) &&
+                ((now.isEqual(endDate)) || now.isBefore(endDate));
+    }
+
+    public int getSetCount(int quantity) {
+        return quantity / bundleCount();
+    }
+
+    public int nonPromotionBuyCount(int quantity) {
+        return quantity % bundleCount();
+    }
+
+    public int bundleCount() {
+        return buyQuantity + freeQuantity;
+    }
+
+    public boolean canTakeFree(int quantity) {
+        return nonPromotionBuyCount(quantity) >= buyQuantity;
+    }
+
+    public int freeOffer(int promotionBuyQuantity) {
+        return (promotionBuyQuantity / bundleCount()) * freeQuantity;
+    }
 }

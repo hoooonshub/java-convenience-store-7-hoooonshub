@@ -12,4 +12,8 @@ public class Product {
     String status() {
         return String.format("- %s %,d원 ", name, price);
     }
+
+    boolean is(String name) {
+        return this.name.equals(name);
+    }
 }
