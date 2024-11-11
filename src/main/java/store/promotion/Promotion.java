@@ -25,6 +25,10 @@ public class Promotion {
         this.endDate = endDate;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public boolean is(String name) {
         return this.name.equals(name);
     }

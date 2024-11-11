@@ -16,4 +16,14 @@ public class Stock {
         products.computeIfAbsent(product, key -> new ProductDetail(promotion))
                 .add(promotion, quantity);
     }
+
+    public String takeStatus(StringBuilder formatted) {
+        products.forEach((product, detail) -> {
+            if (detail.hasPromotion()) {
+                formatted.append(product.status()).append(detail.promotionStatus());
+            }
+            formatted.append(product.status()).append(detail.regularStatus());
+        });
+        return formatted.toString();
+    }
 }

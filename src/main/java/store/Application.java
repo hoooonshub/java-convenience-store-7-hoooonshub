@@ -2,6 +2,7 @@ package store;
 
 import store.promotion.Promotion;
 import store.read.Reader;
+import store.stock.MenuBoard;
 import store.stock.Stock;
 
 import java.util.List;
@@ -16,7 +17,8 @@ public class Application {
         Stock stock = Reader.readStock(PRODUCT_FILE_PATH, promotions);
 
         do {
-
+            MenuBoard board = new MenuBoard();
+            board.show(stock);
         } while ("Y".equals(Reader.readKeepGoing()));
     }
 }

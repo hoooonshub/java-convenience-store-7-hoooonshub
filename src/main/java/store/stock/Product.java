@@ -8,4 +8,8 @@ public class Product {
         this.name = name;
         this.price = price;
     }
+
+    String status() {
+        return String.format("- %s %,d원 ", name, price);
+    }
 }
