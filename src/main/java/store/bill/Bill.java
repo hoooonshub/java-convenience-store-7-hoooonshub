@@ -1,7 +1,6 @@
 package store.bill;
 
 import store.stock.Product;
-
 import java.util.List;
 
 public class Bill {
