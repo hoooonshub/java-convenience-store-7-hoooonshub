@@ -15,22 +15,24 @@ public class Application {
     private static final String PROMOTION_FILE_PATH = "src/main/resources/promotions.md";
     private static final String PRODUCT_FILE_PATH = "src/main/resources/products.md";
 
-
     public static void main(String[] args) {
         List<Promotion> promotions = Reader.readPromotions(PROMOTION_FILE_PATH);
         Stock stock = Reader.readStock(PRODUCT_FILE_PATH, promotions);
 
         do {
-            MenuBoard board = new MenuBoard();
-            board.show(stock);
-
-            ShoppingCart cart = new ShoppingCart();
-            Bills bills = cart.shop(stock);
-
-            Cashier cashier = new Cashier();
-            Receipt receipt = cashier.checkout(bills);
-            receipt.print();
-
+            shop(stock);
         } while ("Y".equals(Reader.readKeepGoing()));
+    }
+
+    private static void shop(Stock stock) {
+        MenuBoard board = new MenuBoard();
+        board.show(stock);
+
+        ShoppingCart cart = new ShoppingCart();
+        Bills bills = cart.shop(stock);
+
+        Cashier cashier = new Cashier();
+        Receipt receipt = cashier.checkout(bills);
+        receipt.print();
     }
 }

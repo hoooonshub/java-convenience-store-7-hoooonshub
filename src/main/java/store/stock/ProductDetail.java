@@ -67,15 +67,29 @@ public class ProductDetail {
     }
 
     private List<Integer> takeOnlyPromotionStock(String productName, int neededQuantity) {
-        if (promotion.canTakeFree(neededQuantity) && wantTakeFree(productName, promotion.bundleCount() - promotion.nonPromotionBuyCount(neededQuantity))) {
-            int promotionBuyCount = (promotion.getSetCount(neededQuantity) + 1) * promotion.bundleCount();
-            int nonPromotionBuyCount = 0;
-            int totalBuy = promotionBuyCount + nonPromotionBuyCount;
+        int freeGiftQuantity = promotion.bundleCount() - promotion.nonPromotionBuyCount(neededQuantity);
 
-            promotionalQuantity -= totalBuy;
-            return List.of(totalBuy, promotion.freeOffer(neededQuantity));
+        if (promotion.canTakeFree(neededQuantity) && wantTakeFree(productName, freeGiftQuantity)) {
+            return takePromotionStockWithFreeGift(neededQuantity);
         }
 
+        return takePromotionStockWithoutFreeGift(neededQuantity);
+    }
+
+    private boolean wantTakeFree(String name, int freeQuantity) {
+        return "Y".equals(Reader.readAgreeReceivingFree(name, freeQuantity));
+    }
+
+    private List<Integer> takePromotionStockWithFreeGift(int neededQuantity) {
+        int promotionBuyCount = (promotion.getSetCount(neededQuantity) + 1) * promotion.bundleCount();
+        int nonPromotionBuyCount = 0;
+        int totalBuy = promotionBuyCount + nonPromotionBuyCount;
+
+        promotionalQuantity -= totalBuy;
+        return List.of(totalBuy, promotion.freeOffer(neededQuantity));
+    }
+
+    private List<Integer> takePromotionStockWithoutFreeGift(int neededQuantity) {
         int promotionBuyCount = promotion.getSetCount(neededQuantity) * promotion.bundleCount();
         int nonPromotionBuyCount = promotion.nonPromotionBuyCount(neededQuantity);
         int totalBuy = promotionBuyCount + nonPromotionBuyCount;
@@ -84,24 +98,26 @@ public class ProductDetail {
         return List.of(totalBuy, promotion.freeOffer(neededQuantity));
     }
 
-    private boolean wantTakeFree(String name, int freeQuantity) {
-        return "Y".equals(Reader.readAgreeReceivingFree(name, freeQuantity));
-    }
-
     private List<Integer> takeMixStock(String productName, int neededQuantity) {
         int promotionSet = promotionalQuantity / promotion.bundleCount();
         int promotionBuyCount = promotionSet * promotion.bundleCount();
         int nonPromotionBuyCount = neededQuantity - (promotionSet * getBundleCount());
 
         if (agreePayingForRegularPrice(productName, nonPromotionBuyCount)) {
-            int totalBuy = promotionBuyCount + nonPromotionBuyCount;
-
-            regularQuantity -= (neededQuantity - promotionalQuantity);
-            promotionalQuantity = 0;
-            return List.of(totalBuy, promotion.freeOffer(promotionalQuantity));
+            return takePromotionSetsAndRegularStock(neededQuantity, promotionBuyCount + nonPromotionBuyCount);
         }
 
-        nonPromotionBuyCount = 0;
+        return takePromotionSetsCount(promotionBuyCount);
+    }
+
+    private List<Integer> takePromotionSetsAndRegularStock(int neededQuantity, int totalBuyCount) {
+        regularQuantity -= (neededQuantity - promotionalQuantity);
+        promotionalQuantity = 0;
+        return List.of(totalBuyCount, promotion.freeOffer(promotionalQuantity));
+    }
+
+    private List<Integer> takePromotionSetsCount(int promotionBuyCount) {
+        int nonPromotionBuyCount = 0;
         int totalBuy = promotionBuyCount + nonPromotionBuyCount;
 
         promotionalQuantity -= totalBuy;
