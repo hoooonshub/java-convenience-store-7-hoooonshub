@@ -9,7 +9,7 @@ public class Receipt {
         formatted = new StringBuilder();
     }
 
-    public void format(Bills bills, int memberShipDiscount) {
+    void format(Bills bills, int memberShipDiscount) {
         makeTopFormat(bills);
         makeMiddleFormat(bills);
         makeBottomFormat(bills, memberShipDiscount);

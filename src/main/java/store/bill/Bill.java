@@ -23,7 +23,7 @@ public class Bill {
         this.promotionBundleCount = bundleCount;
     }
 
-    public int calculateMembership() {
+    int calculateMembership() {
         if (freeOfferCount == 0) {
             return (int)(totalBuyCount * product.getPrice() * 0.3);
         }
@@ -31,23 +31,23 @@ public class Bill {
         return (int)((totalBuyCount - (freeOfferCount * promotionBundleCount)) * product.getPrice() * 0.3);
     }
 
-    public int getTotalBuy() {
+    int getTotalBuy() {
         return totalBuyCount;
     }
 
-    public int getPromotionDiscount() {
+    int getPromotionDiscount() {
         return freeOfferCount * product.getPrice();
     }
 
-    public int getBuyAmount() {
+    int getBuyAmount() {
         return totalBuyCount * product.getPrice();
     }
 
-    public String receiptTopFormat() {
+    String receiptTopFormat() {
         return String.format("%-10s %10d %,10d\n", product.getName(), totalBuyCount, totalBuyCount * product.getPrice());
     }
 
-    public String receiptMiddleFormat() {
+    String receiptMiddleFormat() {
         if (freeOfferCount == 0) {
             return "";
         }
