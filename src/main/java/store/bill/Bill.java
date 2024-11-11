@@ -4,6 +4,10 @@ import store.stock.Product;
 import java.util.List;
 
 public class Bill {
+    private static final String RECEIPT_TOP_FORMAT = "%-10s %10d %,10d\n";
+    private static final String RECEIPT_MIDDLE_FORMAT = "%-10s %10d\n";
+    private static final String NONE = "";
+
     private final Product product;
     private final int totalBuyCount;
     private final int freeOfferCount;
@@ -44,14 +48,14 @@ public class Bill {
     }
 
     String receiptTopFormat() {
-        return String.format("%-10s %10d %,10d\n", product.getName(), totalBuyCount, totalBuyCount * product.getPrice());
+        return String.format(RECEIPT_TOP_FORMAT, product.getName(), totalBuyCount, totalBuyCount * product.getPrice());
     }
 
     String receiptMiddleFormat() {
         if (freeOfferCount == 0) {
-            return "";
+            return NONE;
         }
 
-        return String.format("%-10s %10d\n", product.getName(), freeOfferCount);
+        return String.format(RECEIPT_MIDDLE_FORMAT, product.getName(), freeOfferCount);
     }
 }

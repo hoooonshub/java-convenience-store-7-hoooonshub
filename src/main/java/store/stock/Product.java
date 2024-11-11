@@ -3,6 +3,8 @@ package store.stock;
 import java.util.Objects;
 
 public class Product {
+    private static final String MENU_FORMAT = "- %s %,d원 ";
+
     private final String name;
     private final int price;
 
@@ -20,7 +22,7 @@ public class Product {
     }
 
     String status() {
-        return String.format("- %s %,d원 ", name, price);
+        return String.format(MENU_FORMAT, name, price);
     }
 
     boolean is(String name) {
