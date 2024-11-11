@@ -108,7 +108,7 @@ public class ProductDetail {
         return List.of(totalBuy, promotion.freeOffer(promotionalQuantity));
     }
 
-    private int getBundleCount() {
+    int getBundleCount() {
         return promotion.bundleCount();
     }
 
