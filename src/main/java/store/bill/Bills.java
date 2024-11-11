@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Bills {
+    private static final int MAX_MEMBERSHIP_DISCOUNT = 8000;
+
     private List<Bill> bills;
 
     public Bills() {
@@ -19,7 +21,7 @@ public class Bills {
                 .mapToInt(Bill::calculateMembership)
                 .sum();
 
-        return Math.min(discount, 8000);
+        return Math.min(discount, MAX_MEMBERSHIP_DISCOUNT);
     }
 
     public StringBuilder getTopReceipt() {

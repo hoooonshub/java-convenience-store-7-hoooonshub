@@ -8,7 +8,6 @@ import store.promotion.Promotion;
 import store.read.Reader;
 import store.stock.MenuBoard;
 import store.stock.Stock;
-
 import java.util.List;
 
 public class Application {
