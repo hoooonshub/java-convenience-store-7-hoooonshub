@@ -1,5 +1,7 @@
 package store;
 
+import store.bill.Bills;
+import store.cart.ShoppingCart;
 import store.promotion.Promotion;
 import store.read.Reader;
 import store.stock.MenuBoard;
@@ -19,6 +21,10 @@ public class Application {
         do {
             MenuBoard board = new MenuBoard();
             board.show(stock);
+
+            ShoppingCart cart = new ShoppingCart();
+            Bills bills = cart.shop(stock);
+
         } while ("Y".equals(Reader.readKeepGoing()));
     }
 }

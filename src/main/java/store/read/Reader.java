@@ -13,7 +13,9 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 
 public class Reader {
@@ -66,6 +68,36 @@ public class Reader {
             }
         } catch (IOException e) {
             throw new IllegalArgumentException(e.getMessage());
+        }
+    }
+
+    public static Map<String, Integer> readProductToBuy() {
+        System.out.println("구매하실 상품명과 수량을 입력해 주세요. (예: [사이다-2],[감자칩-1])");
+        String input = Console.readLine();
+
+        Map<String, Integer> products = new HashMap<>();
+        String[] eachProduct = input.split(",");
+
+        for (String product : eachProduct) {
+            validateEnclosedWithSquareBrackets(product);
+            String[] productAndCount = product.substring(1, product.length() - 1).split("-");
+            parseProduct(products, productAndCount);
+        }
+
+        return products;
+    }
+
+    private static void validateEnclosedWithSquareBrackets(String input) {
+        if (!input.startsWith("[") || !input.endsWith("]")) {
+            throw new IllegalArgumentException("[ERROR] 올바르지 않은 형식으로 입력했습니다. 다시 입력해 주세요.");
+        }
+    }
+
+    private static void parseProduct(Map<String, Integer> products, String[] productAndCount) {
+        try {
+            products.put(productAndCount[0], Integer.parseInt(productAndCount[1]));
+        } catch (Exception e) {
+            throw new IllegalArgumentException("[ERROR] 올바르지 않은 형식으로 입력했습니다. 다시 입력해 주세요.");
         }
     }
 
