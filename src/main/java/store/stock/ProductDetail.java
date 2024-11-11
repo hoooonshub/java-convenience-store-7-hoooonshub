@@ -86,7 +86,7 @@ public class ProductDetail {
         int totalBuy = promotionBuyCount + nonPromotionBuyCount;
 
         promotionalQuantity -= totalBuy;
-        return List.of(totalBuy, promotion.freeOffer(neededQuantity));
+        return List.of(totalBuy, promotion.freeOffer(promotionBuyCount));
     }
 
     private List<Integer> takePromotionStockWithoutFreeGift(int neededQuantity) {
