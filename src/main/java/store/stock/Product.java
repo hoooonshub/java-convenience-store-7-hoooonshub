@@ -9,6 +9,14 @@ public class Product {
         this.price = price;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
     String status() {
         return String.format("- %s %,d원 ", name, price);
     }

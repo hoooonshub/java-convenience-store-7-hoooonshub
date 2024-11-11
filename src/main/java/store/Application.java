@@ -2,6 +2,8 @@ package store;
 
 import store.bill.Bills;
 import store.cart.ShoppingCart;
+import store.counter.Cashier;
+import store.counter.Receipt;
 import store.promotion.Promotion;
 import store.read.Reader;
 import store.stock.MenuBoard;
@@ -24,6 +26,10 @@ public class Application {
 
             ShoppingCart cart = new ShoppingCart();
             Bills bills = cart.shop(stock);
+
+            Cashier cashier = new Cashier();
+            Receipt receipt = cashier.checkout(bills);
+            receipt.print();
 
         } while ("Y".equals(Reader.readKeepGoing()));
     }
