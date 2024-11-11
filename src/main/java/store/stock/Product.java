@@ -1,5 +1,7 @@
 package store.stock;
 
+import java.util.Objects;
+
 public class Product {
     private final String name;
     private final int price;
@@ -23,5 +25,23 @@ public class Product {
 
     boolean is(String name) {
         return this.name.equals(name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, price);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (!(obj instanceof Product p)) {
+            return false;
+        }
+
+        return name.equals(p.name) && price == p.price;
     }
 }
