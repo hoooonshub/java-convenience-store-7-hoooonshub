@@ -29,7 +29,7 @@ public class Application {
         board.show(stock);
 
         ShoppingCart cart = new ShoppingCart();
-        Bills bills = cart.shop(stock);
+        Bills bills = cart.buy(stock);
 
         Cashier cashier = new Cashier();
         Receipt receipt = cashier.checkout(bills);

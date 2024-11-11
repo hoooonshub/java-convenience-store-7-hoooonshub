@@ -28,7 +28,7 @@ public class Stock {
         return formatted.toString();
     }
 
-    public Bill take(String name, int quantity) {
+    public Bill sell(String name, int quantity) {
         Product product = findProduct(name);
 
         if (products.get(product).isOnPromotion()) {
