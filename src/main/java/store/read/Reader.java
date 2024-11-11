@@ -1,5 +1,6 @@
 package store.read;
 
+import camp.nextstep.edu.missionutils.Console;
 import store.promotion.Promotion;
 import store.stock.Product;
 import store.stock.Stock;
@@ -66,5 +67,22 @@ public class Reader {
         } catch (IOException e) {
             throw new IllegalArgumentException(e.getMessage());
         }
+    }
+
+    public static String readKeepGoing() {
+        System.out.println("감사합니다. 구매하고 싶은 다른 상품이 있나요? (Y/N)");
+
+        return inputYOrN();
+    }
+
+    private static String inputYOrN() {
+        String input;
+        do {
+            input = Console.readLine();
+            if ("Y".equals(input) || "N".equals(input)) {
+                return input;
+            }
+            System.out.println("[ERROR] 잘못된 입력입니다. 다시 입력해 주세요.");
+        } while (true);
     }
 }

@@ -14,5 +14,9 @@ public class Application {
     public static void main(String[] args) {
         List<Promotion> promotions = Reader.readPromotions(PROMOTION_FILE_PATH);
         Stock stock = Reader.readStock(PRODUCT_FILE_PATH, promotions);
+
+        do {
+
+        } while ("Y".equals(Reader.readKeepGoing()));
     }
 }
