@@ -60,13 +60,13 @@ public class ProductDetail {
         }
 
         if (neededQuantity <= promotionalQuantity) {
-            return takeOnlyPromotionStock(productName, neededQuantity);
+            return takeStockAtOnlyPromotion(productName, neededQuantity);
         }
 
-        return takeMixStock(productName, neededQuantity);
+        return takePromotionStockFirst(productName, neededQuantity);
     }
 
-    private List<Integer> takeOnlyPromotionStock(String productName, int neededQuantity) {
+    private List<Integer> takeStockAtOnlyPromotion(String productName, int neededQuantity) {
         int freeGiftQuantity = promotion.bundleCount() - promotion.nonPromotionBuyCount(neededQuantity);
 
         if (promotion.canTakeFree(neededQuantity) && wantTakeFree(productName, freeGiftQuantity)) {
@@ -98,19 +98,19 @@ public class ProductDetail {
         return List.of(totalBuy, promotion.freeOffer(neededQuantity));
     }
 
-    private List<Integer> takeMixStock(String productName, int neededQuantity) {
+    private List<Integer> takePromotionStockFirst(String productName, int neededQuantity) {
         int promotionSet = promotionalQuantity / promotion.bundleCount();
         int promotionBuyCount = promotionSet * promotion.bundleCount();
         int nonPromotionBuyCount = neededQuantity - (promotionSet * getBundleCount());
 
         if (agreePayingForRegularPrice(productName, nonPromotionBuyCount)) {
-            return takePromotionSetsAndRegularStock(neededQuantity, promotionBuyCount + nonPromotionBuyCount);
+            return takeAllPromotionStockAndPartOfRegularStock(neededQuantity, promotionBuyCount + nonPromotionBuyCount);
         }
 
         return takePromotionSetsCount(promotionBuyCount);
     }
 
-    private List<Integer> takePromotionSetsAndRegularStock(int neededQuantity, int totalBuyCount) {
+    private List<Integer> takeAllPromotionStockAndPartOfRegularStock(int neededQuantity, int totalBuyCount) {
         regularQuantity -= (neededQuantity - promotionalQuantity);
         promotionalQuantity = 0;
         return List.of(totalBuyCount, promotion.freeOffer(promotionalQuantity));
