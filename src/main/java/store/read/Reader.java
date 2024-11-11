@@ -17,13 +17,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
+import java.util.regex.Pattern;
 
 public class Reader {
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
+    private static final String NON_PROMOTION = "null";
+    private static final String PRODUCTS_DELIMITER = ",";
+    private static final String PRODUCT_DELIMITER = "-";
+    private static final Pattern START_AND_END_WITH_SQUARE_BRACKETS = Pattern.compile("^\\[.*]$");
+
     public static List<Promotion> readPromotions(String filePath) {
         List<Promotion> promotions = new ArrayList<>();
-        promotions.add(new Promotion("null"));
+        promotions.add(new Promotion(NON_PROMOTION));
 
         parseFile(filePath, details -> {
             String name = details[0];
@@ -63,7 +69,7 @@ public class Reader {
 
             String line;
             while ((line = br.readLine()) != null) {
-                String[] details = line.split(",");
+                String[] details = line.split(PRODUCTS_DELIMITER);
                 consumer.accept(details);
             }
         } catch (IOException e) {
@@ -76,24 +82,24 @@ public class Reader {
         String input = Console.readLine();
 
         Map<String, Integer> products = new HashMap<>();
-        String[] eachProduct = input.split(",");
+        String[] eachProduct = input.split(PRODUCTS_DELIMITER);
 
         for (String product : eachProduct) {
             validateEnclosedWithSquareBrackets(product);
-            String[] productAndCount = product.substring(1, product.length() - 1).split("-");
-            parseProduct(products, productAndCount);
+            parseAndPutProduct(products, product);
         }
-
         return products;
     }
 
     private static void validateEnclosedWithSquareBrackets(String input) {
-        if (!input.startsWith("[") || !input.endsWith("]")) {
+        if (!START_AND_END_WITH_SQUARE_BRACKETS.matcher(input).matches()) {
             throw new IllegalArgumentException("[ERROR] 올바르지 않은 형식으로 입력했습니다. 다시 입력해 주세요.");
         }
     }
 
-    private static void parseProduct(Map<String, Integer> products, String[] productAndCount) {
+    private static void parseAndPutProduct(Map<String, Integer> products, String product) {
+        String[] productAndCount = product.substring(1, product.length() - 1).split(PRODUCT_DELIMITER);
+
         try {
             products.put(productAndCount[0], Integer.parseInt(productAndCount[1]));
         } catch (Exception e) {

@@ -16,9 +16,7 @@ public class ShoppingCart {
     public Bills buy(Stock stock) {
         while (true) {
             try {
-                // 구매할 상품명과 수량 입력
                 Map<String, Integer> productsToBuy = Reader.readProductToBuy();
-
                 productsToBuy.forEach((product, quantity) -> bills.add(stock.sell(product, quantity)));
 
                 break;
@@ -26,7 +24,6 @@ public class ShoppingCart {
                 System.out.println(e.getMessage());
             }
         }
-
         return bills;
     }
 }
