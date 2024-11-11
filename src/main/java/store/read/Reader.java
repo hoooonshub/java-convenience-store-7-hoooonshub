@@ -1,6 +1,8 @@
 package store.read;
 
 import store.promotion.Promotion;
+import store.stock.Product;
+import store.stock.Stock;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -30,6 +32,26 @@ public class Reader {
         });
 
         return promotions;
+    }
+
+    public static Stock readStock(String filePath, List<Promotion> promotions) {
+        Stock stock = new Stock();
+
+        parseFile(filePath, details -> {
+            String name = details[0];
+            int price = Integer.parseInt(details[1]);
+            int quantity = Integer.parseInt(details[2]);
+            String promotionName = details[3];
+
+            Promotion promotion = promotions.stream()
+                    .filter(promo -> promo.is(promotionName))
+                    .findFirst()
+                    .orElseThrow(() -> new IllegalArgumentException("[ERROR] 잘못된 입력입니다. 다시 입력해 주세요."));
+
+            stock.register(new Product(name, price), quantity, promotion);
+        });
+
+        return stock;
     }
 
     private static void parseFile(String filePath, Consumer<String[]> consumer) {

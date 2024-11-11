@@ -24,4 +24,12 @@ public class Promotion {
         this.startDate = startDate;
         this.endDate = endDate;
     }
+
+    public boolean is(String name) {
+        return this.name.equals(name);
+    }
+
+    public boolean none() {
+        return "null".equals(this.name);
+    }
 }
